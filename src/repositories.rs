@@ -17,8 +17,8 @@ impl TodoRepositories {
             .unwrap_or_else(|_| panic!("エラーを起こしているURL{}", database_url))
     }
 
-    pub fn show_all(conn: &mut SqliteConnection) -> Vec<Todo> {
-        todos::table.load(conn).expect("Error load todos")
+    pub fn show_all(conn: &mut SqliteConnection) -> Result<Vec<Todo>, String> {
+        Ok(todos::table.load(conn).expect("Error load todos"))
     }
 
     pub fn show(conn: &mut SqliteConnection, id: i32) -> Option<Todo> {

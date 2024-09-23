@@ -1,14 +1,14 @@
-use rocket::get;
-use rocket::routes;
-
-#[get("/")]
-pub fn index() -> &'static str {
-    "Hello, world!"
-}
+use rocket::{fs::relative, fs::FileServer, routes};
+use rocket_dyn_templates::Template;
+use rocket_todo::routes::*;
 
 #[rocket::main]
 async fn main() -> Result<(), rocket::Error> {
-    let _rocket = rocket::build().mount("/", routes![index]).launch().await?;
-
+    let _rocket = rocket::build()
+        .mount("/", FileServer::from(relative!("static")))
+        .attach(Template::fairing())
+        .mount("/", routes![index, get_todo])
+        .launch()
+        .await?;
     Ok(())
 }
