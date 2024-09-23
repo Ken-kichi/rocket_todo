@@ -19,9 +19,15 @@ pub fn index() -> Template {
 
 // TODO詳細画面
 #[get("/detail/<id>")]
-pub fn get_todo(id: i32) -> String {
-    let response = format!("Hello {}", id);
-    response
+pub fn get_detail(id: i32) -> Template {
+    let connection = &mut TodoRepositories::establish_connection();
+    match TodoRepositories::show(connection,id){
+        Ok(todo)=>Template::render("detail",context!{todo:todo}),
+        Err(_)=>Template::render(
+            "error",
+            context!{message:"データベースエラーが発生しました。"}
+        )
+    }
 }
 
 // TODO追加画面
@@ -63,4 +69,9 @@ pub fn update(id: i32) -> String {
 pub fn update_todo(id: i32) -> String {
     let response = format!("Hello {}", id);
     response
+}
+
+#[get("/error?<message>")]
+pub fn error(message: Option<String>) -> Template {
+    Template::render("error", context! {message})
 }

@@ -18,11 +18,16 @@ impl TodoRepositories {
     }
 
     pub fn show_all(conn: &mut SqliteConnection) -> Result<Vec<Todo>, String> {
-        Ok(todos::table.load(conn).expect("Error load todos"))
+        Ok(todos::table
+            .load(conn)
+            .expect("TODOの一覧を取得できませんでした。"))
     }
 
-    pub fn show(conn: &mut SqliteConnection, id: i32) -> Option<Todo> {
-        todos::table.find(id).first(conn).optional().unwrap()
+    pub fn show(conn: &mut SqliteConnection, id: i32) -> Result<Todo, String> {
+        todos::table
+            .find(id)
+            .first(conn)
+            .map_err(|_| "TODOの詳細を取得できませんでした。".to_string())
     }
 
     pub fn create(
