@@ -25,17 +25,20 @@ impl TodoRepositories {
         todos::table.find(id).first(conn).optional().unwrap()
     }
 
-    pub fn create(conn: &mut SqliteConnection, title: &String, completed: &bool) -> usize {
+    pub fn create(
+        conn: &mut SqliteConnection,
+        title: &String,
+        completed: &bool,
+    ) -> Result<usize, String> {
         let new_todo = NewTodo {
             title: title.to_string(),
             completed: *completed,
         };
 
-        let todo = diesel::insert_into(todos::table)
+        Ok(diesel::insert_into(todos::table)
             .values(&new_todo)
             .execute(conn)
-            .expect("Error saving new todo");
-        todo
+            .expect("Error saving new todo"))
     }
 
     pub fn update(conn: &mut SqliteConnection, id: i32) -> String {

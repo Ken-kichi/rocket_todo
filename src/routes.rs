@@ -1,7 +1,8 @@
+use crate::{models::NewTodo, repositories::TodoRepositories};
+use rocket::form::Form;
+use rocket::response::Redirect;
 use rocket::{get, post, put};
 use rocket_dyn_templates::{context, Template};
-
-use crate::repositories::TodoRepositories;
 
 // TODO一覧画面
 #[get("/")]
@@ -24,17 +25,23 @@ pub fn get_todo(id: i32) -> String {
 }
 
 // TODO追加画面
-#[get("/add")]
-pub fn add() -> String {
-    let response = format!("Hello ");
-    response
+#[get("/add?<message>")]
+pub fn add(message: Option<String>) -> Template {
+    Template::render("add", context! {message})
 }
 
 // TODO追加処理
-#[post("/add/<id>")]
-pub fn add_todo(id: i32) -> String {
-    let response = format!("Hello {}", id);
-    response
+#[post(
+    "/add",
+    format = "application/x-www-form-urlencoded",
+    data = "<new_todo>"
+)]
+pub fn add_todo(new_todo: Form<NewTodo>) -> Redirect {
+    let connection = &mut TodoRepositories::establish_connection();
+    match TodoRepositories::create(connection, &new_todo.title, &new_todo.completed) {
+        Ok(_todo) => Redirect::to("/"),
+        Err(e) => Redirect::to(format!("/add?message={}", e)),
+    }
 }
 
 // TODO削除処理

@@ -7,7 +7,7 @@ async fn main() -> Result<(), rocket::Error> {
     let _rocket = rocket::build()
         .mount("/", FileServer::from(relative!("static")))
         .attach(Template::fairing())
-        .mount("/", routes![index, get_todo])
+        .mount("/", routes![index, get_todo, add, add_todo])
         .launch()
         .await?;
     Ok(())

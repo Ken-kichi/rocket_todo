@@ -17,10 +17,14 @@
         </div>
     </nav>
 
-    <div class="uk-navbar-right uk-position-top-right uk-margin-small-top" style="margin-right: 100px;top:10px">
+    <div class="uk-navbar-right uk-position-top-right uk-margin-small-top">
         <ul class="uk-navbar-nav">
             <li>
-                <button href="/add" class="uk-button uk-button-primary">TODOを追加</button>
+                <a href="/add" style="margin-right: 100px;">
+                    <button class="uk-button uk-button-primary">
+                        TODOを追加
+                    </button>
+                </a>
             </li>
         </ul>
     </div>
@@ -40,10 +44,15 @@
                 <div class="uk-card uk-card-default uk-card-body">
                     <h3 class="uk-card-title">{{todo.title}}</h3>
                     {% if todo.completed %}
-                    <p>完了</p>
+                    <div class="uk-alert-success" uk-alert>
+                        <p>未完了</p>
+                    </div>
                     {% else %}
-                    <p>未完了</p>
+                    <div class="uk-alert-danger" uk-alert>
+                        <p>未完了</p>
+                    </div>
                     {% endif %}
+                    <a href="/detail/{{todo.id}}" class="uk-button uk-button-default">詳細</a>
                     <a href="/update/{{todo.id}}" class="uk-button uk-button-default">更新</a>
                     <a href="/delete/{{todo.id}}" class="uk-button uk-button-danger">削除</a>
                 </div>

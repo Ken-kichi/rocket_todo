@@ -1,4 +1,5 @@
 use diesel::prelude::*;
+use rocket::FromForm;
 use serde::{Deserialize, Serialize};
 
 #[derive(Queryable, Serialize, Deserialize, Debug)]
@@ -10,7 +11,7 @@ pub struct Todo {
     pub completed: bool,
 }
 
-#[derive(Insertable, Deserialize)]
+#[derive(Insertable, Deserialize, FromForm)]
 #[diesel(table_name = crate::schema::todos)]
 pub struct NewTodo {
     pub title: String,

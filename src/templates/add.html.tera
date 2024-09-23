@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/uikit.min.css" />
+    <script src="js/uikit.min.js"></script>
+    <script src="js/uikit-icons.min.js"></script>
+    <title>TODOを追加</title>
+</head>
+
+<body>
+    <nav class="uk-navbar-container uk-margin">
+        <div class="uk-navbar-left">
+            <a class="uk-navbar-item uk-logo" href="/">TODOアプリ</a>
+        </div>
+    </nav>
+
+    <div class="uk-navbar-right uk-position-top-right uk-margin-small-top" style="margin-right: 100px;top:10px">
+        <ul class="uk-navbar-nav">
+            <li>
+                <button href="/" class="uk-button uk-button-primary">TODO一覧へ戻る</button>
+            </li>
+        </ul>
+    </div>
+
+    <div class="uk-container">
+        <h1 class="uk-heading-line uk-text-center"><span>TODO追加</span></h1>
+        {%if message %}
+        <div class="uk-alert-danger" uk-alert>
+
+            <p>{{message}}</p>
+        </div>
+        {% endif %}
+        <form class="uk-form uk-form-horizontal uk-margin-large" method="post" action="/add">
+            <div class="uk-margin  uk-text-center">
+                <label for="title" class="uk-form-label">タイトル</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input uk-width-1-2" id="title" name="title" type="text" placeholder="TODOのタイトルを入力"
+                        required>
+                </div>
+            </div>
+
+            <div class="uk-margin  uk-text-center">
+                <label for="completed" class="uk-form-label">完了状態</label>
+                <div class="uk-form-controls">
+                    <select class="uk-select uk-width-1-2" id="completed" name="completed" required>
+                        <option value="false">未完了</option>
+                        <option value="true">完了</option>
+                    </select>
+                </div>
+            </div>
+            <div class="uk-margin  uk-text-center">
+                <button class="uk-button uk-button-primary" type="submit">追加</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
