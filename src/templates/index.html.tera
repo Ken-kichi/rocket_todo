@@ -31,7 +31,7 @@
 
     <div class="uk-container">
         <h1 class="uk-heading-line uk-text-center"><span>TODO一覧</span></h1>
-        <div class="uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l uk-grid-match" uk-grid>
+        <div class="uk-flex uk-flex-column uk-width-1-3" style="margin: auto;">
             {%if message%}
             <div class="uk-width-1-1">
                 <div class="uk-card uk-card-default uk-card-body">
@@ -41,7 +41,7 @@
             {% else %}
             {% for todo in todos%}
             <div>
-                <div class="uk-card uk-card-default uk-card-body">
+                <div class="uk-card uk-card-default uk-card-body uk-margin-small-top">
                     <h3 class="uk-card-title">{{todo.title}}</h3>
                     {% if todo.completed %}
                     <div class="uk-alert-success" uk-alert>
@@ -52,7 +52,7 @@
                         <p>未完了</p>
                     </div>
                     {% endif %}
-                    <a href="/detail/{{todo.id}}" class="uk-button uk-button-default">詳細</a>
+                    <a href="/detail/{{todo.id}}" class="uk-button uk-button-secondary">詳細</a>
                     <a href="/update/{{todo.id}}" class="uk-button uk-button-default">更新</a>
                     <a href="/delete/{{todo.id}}" class="uk-button uk-button-danger">削除</a>
                 </div>
