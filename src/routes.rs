@@ -1,7 +1,7 @@
-use crate::{models::NewTodo, repositories::TodoRepositories};
+use crate::{models::{NewTodo,DeleteForm}, repositories::TodoRepositories};
 use rocket::form::Form;
 use rocket::response::Redirect;
-use rocket::{get, post, put};
+use rocket::{get, post, put,delete};
 use rocket_dyn_templates::{context, Template};
 
 // TODO一覧画面
@@ -46,15 +46,19 @@ pub fn add_todo(new_todo: Form<NewTodo>) -> Redirect {
     let connection = &mut TodoRepositories::establish_connection();
     match TodoRepositories::create(connection, &new_todo.title, &new_todo.completed) {
         Ok(_todo) => Redirect::to("/"),
-        Err(e) => Redirect::to(format!("/add?message={}", e)),
+        Err(e) => Redirect::to(format!("/error?message={}", e)),
     }
 }
 
 // TODO削除処理
-#[get("/delete/<id>")]
-pub fn delete(id: i32) -> String {
-    let response = format!("Hello {}", id);
-    response
+#[post("/delete/<id>",format = "application/x-www-form-urlencoded", data = "<_form>")]
+pub fn delete_todo(id: i32,_form: Form<DeleteForm>) -> Redirect {
+    let connection = &mut TodoRepositories::establish_connection();
+    match TodoRepositories::delete(connection,id){
+        Err(e) => Redirect::to(format!("/error?message={}", e)),
+        Ok(0) => Redirect::to("/"), // 0件削除された場合の処理
+        Ok(_) => Redirect::to("/"), // 1件以上削除された場合の処理
+    }
 }
 
 // TODO更新画面

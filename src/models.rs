@@ -17,3 +17,8 @@ pub struct NewTodo {
     pub title: String,
     pub completed: bool,
 }
+
+#[derive(FromForm)] // フォームデータを受け取るための構造体
+pub struct DeleteForm {
+    pub id: i32,
+}

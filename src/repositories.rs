@@ -58,14 +58,10 @@ impl TodoRepositories {
         }
     }
 
-    pub fn delete(conn: &mut SqliteConnection, id: i32) -> String {
+    pub fn delete(conn: &mut SqliteConnection, id: i32) -> Result<usize,String> {
         let deleted = diesel::delete(todos::table.find(id))
             .execute(conn)
             .expect("Error deleting posts");
-        match deleted {
-            1 => "削除できました。".to_string(),
-            0 => "削除できませんでした。".to_string(),
-            _ => "問題が発生しました。".to_string(),
-        }
+        Ok(deleted)
     }
 }

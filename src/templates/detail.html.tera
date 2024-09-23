@@ -45,10 +45,10 @@
                     </div>
                     {% endif %}
                     <a href="/update/{{todo.id}}" class="uk-button uk-button-default">更新</a>
-                    <a href="javascript:void(0);" class="uk-button uk-button-danger"
-                        onclick="if(confirm('本当に削除しますか？')){location.href='/delete/{{todo.id}}'}">
-                        削除
-                    </a>
+                    <form action="/delete/{{todo.id}}" method="post" onsubmit="return confirm('本当に削除しますか？');">
+                        <input type="hidden" name="id" value="{{todo.id}}">
+                        <button type="submit" class="uk-button uk-button-danger">削除</button>
+                    </form>
                 </div>
             </div>
         </div>

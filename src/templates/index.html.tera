@@ -54,7 +54,10 @@
                     {% endif %}
                     <a href="/detail/{{todo.id}}" class="uk-button uk-button-secondary">詳細</a>
                     <a href="/update/{{todo.id}}" class="uk-button uk-button-default">更新</a>
-                    <a href="/delete/{{todo.id}}" class="uk-button uk-button-danger">削除</a>
+                    <form action="/delete/{{todo.id}}" method="post" onsubmit="return confirm('本当に削除しますか？');">
+                        <input type="hidden" name="id" value="{{todo.id}}">
+                        <button type="submit" class="uk-button uk-button-danger">削除</button>
+                    </form>
                 </div>
             </div>
             {% endfor %}
