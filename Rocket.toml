@@ -1,5 +1,2 @@
 [global]
 template_dir = "src/templates"
-
-[default]
-database_url = "sqlite.db"
