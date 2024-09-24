@@ -4,6 +4,7 @@ use crate::{
 };
 use diesel::prelude::*;
 use dotenvy::dotenv;
+use rocket::form::Form;
 use std::env;
 
 pub struct TodoRepositories;
@@ -46,19 +47,17 @@ impl TodoRepositories {
             .expect("Error saving new todo"))
     }
 
-    pub fn update(conn: &mut SqliteConnection, id: i32) -> String {
-        let updated = diesel::update(todos::table.find(id))
-            .set(todos::completed.eq(true))
+    pub fn update(conn: &mut SqliteConnection, update_todo: Form<Todo>) -> Result<usize, String> {
+        Ok(diesel::update(todos::table.find(update_todo.id))
+            .set((
+                todos::title.eq(update_todo.title.clone()),
+                todos::completed.eq(update_todo.completed),
+            ))
             .execute(conn)
-            .unwrap();
-        match updated {
-            1 => "更新できました。".to_string(),
-            0 => "更新できませんでした。".to_string(),
-            _ => "問題が発生しました。".to_string(),
-        }
+            .expect("Error updating todo"))
     }
 
-    pub fn delete(conn: &mut SqliteConnection, id: i32) -> Result<usize,String> {
+    pub fn delete(conn: &mut SqliteConnection, id: i32) -> Result<usize, String> {
         let deleted = diesel::delete(todos::table.find(id))
             .execute(conn)
             .expect("Error deleting posts");

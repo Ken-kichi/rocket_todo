@@ -47,7 +47,7 @@
                     <div class="uk-flex uk-flex-inline">
                         <a href="/update/{{todo.id}}" class="uk-button uk-button-default"
                             style="margin-right: 10px;">更新</a>
-                        <form action="/delete/{{todo.id}}" method="post" onsubmit="return confirm('本当に削除しますか？');">
+                        <form action="/delete" method="post" onsubmit="return confirm('本当に削除しますか？');">
                             <input type="hidden" name="id" value="{{todo.id}}">
                             <button type="submit" class="uk-button uk-button-danger">削除</button>
                         </form>

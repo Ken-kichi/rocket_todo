@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/uikit.min.css" />
+    <script src="../js/uikit.min.js"></script>
+    <script src="../js/uikit-icons.min.js"></script>
+    <title>TODO更新</title>
+</head>
+
+<body>
+    <nav class="uk-navbar-container uk-margin">
+        <div class="uk-navbar-left">
+            <a class="uk-navbar-item uk-logo" href="/">TODOアプリ</a>
+        </div>
+    </nav>
+
+    <div class="uk-navbar-right uk-position-top-right uk-margin-small-top">
+        <ul class="uk-navbar-nav">
+            <li>
+                <a href="/" style="margin-right: 100px;">
+                    <button class="uk-button uk-button-primary">
+                        TODO一覧へ戻る
+                    </button>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="uk-container">
+        <h1 class="uk-heading-line uk-text-center"><span>TODO更新</span></h1>
+        <form class="uk-card uk-card-default uk-card-body uk-margin-small-top" method="post" action="/update">
+            <input type="hidden" name="id" value="{{todo.id}}">
+            <div class="uk-margin  uk-text-center">
+                <label for="title" class="uk-form-label">タイトル</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input uk-width-1-2" id="title" name="title" type="text" placeholder="TODOのタイトルを入力"
+                        value="{{todo.title}}" required>
+                </div>
+            </div>
+
+            <div class="uk-margin  uk-text-center">
+                <label for="completed" class="uk-form-label">完了状態</label>
+                <div class="uk-form-controls">
+                    <select class="uk-select uk-width-1-2" id="completed" name="completed" required>
+                        <option value="false" {%if todo.completed==false %} selected{% endif %}>未完了</option>
+                        <option value="true" {%if todo.completed==true %} selected{% endif %}>完了</option>
+                    </select>
+                </div>
+            </div>
+            <div class="uk-margin  uk-text-center">
+                <button class="uk-button uk-button-default" type="submit">更新</button>
+                <a href="/detail/{{todo.id}}">
+                    <button class="uk-button uk-button-primary" type="submit">詳細へ戻る</button>
+                </a>
+            </div>
+        </form>
+    </div>
+</body>
+
+
+</html>

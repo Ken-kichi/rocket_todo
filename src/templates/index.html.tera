@@ -45,7 +45,7 @@
                     <h3 class="uk-card-title">{{ loop.index }}. {{ todo.title }}</h3>
                     {% if todo.completed %}
                     <div class="uk-alert-success" uk-alert>
-                        <p>未完了</p>
+                        <p>完了</p>
                     </div>
                     {% else %}
                     <div class="uk-alert-danger" uk-alert>
@@ -57,7 +57,7 @@
                             style="margin-right: 10px;">詳細</a>
                         <a href="/update/{{todo.id}}" class="uk-button uk-button-default"
                             style="margin-right: 10px;">更新</a>
-                        <form action="/delete/{{todo.id}}" method="post" onsubmit="return confirm('本当に削除しますか？');">
+                        <form action="/delete" method="post" onsubmit="return confirm('本当に削除しますか？');">
                             <input type="hidden" name="id" value="{{todo.id}}">
                             <button type="submit" class="uk-button uk-button-danger">削除</button>
                         </form>

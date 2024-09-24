@@ -1,7 +1,10 @@
-use crate::{models::{NewTodo,DeleteForm}, repositories::TodoRepositories};
+use crate::{
+    models::{DeleteForm, NewTodo, Todo},
+    repositories::TodoRepositories,
+};
 use rocket::form::Form;
 use rocket::response::Redirect;
-use rocket::{get, post, put,delete};
+use rocket::{get, post};
 use rocket_dyn_templates::{context, Template};
 
 // TODO一覧画面
@@ -21,12 +24,12 @@ pub fn index() -> Template {
 #[get("/detail/<id>")]
 pub fn get_detail(id: i32) -> Template {
     let connection = &mut TodoRepositories::establish_connection();
-    match TodoRepositories::show(connection,id){
-        Ok(todo)=>Template::render("detail",context!{todo:todo}),
-        Err(_)=>Template::render(
+    match TodoRepositories::show(connection, id) {
+        Ok(todo) => Template::render("detail", context! {todo:todo}),
+        Err(_) => Template::render(
             "error",
-            context!{message:"データベースエラーが発生しました。"}
-        )
+            context! {message:"データベースエラーが発生しました。"},
+        ),
     }
 }
 
@@ -51,10 +54,14 @@ pub fn add_todo(new_todo: Form<NewTodo>) -> Redirect {
 }
 
 // TODO削除処理
-#[post("/delete/<id>",format = "application/x-www-form-urlencoded", data = "<_form>")]
-pub fn delete_todo(id: i32,_form: Form<DeleteForm>) -> Redirect {
+#[post(
+    "/delete",
+    format = "application/x-www-form-urlencoded",
+    data = "<form>"
+)]
+pub fn delete_todo(form: Form<DeleteForm>) -> Redirect {
     let connection = &mut TodoRepositories::establish_connection();
-    match TodoRepositories::delete(connection,id){
+    match TodoRepositories::delete(connection, form.id) {
         Err(e) => Redirect::to(format!("/error?message={}", e)),
         Ok(0) => Redirect::to("/"), // 0件削除された場合の処理
         Ok(_) => Redirect::to("/"), // 1件以上削除された場合の処理
@@ -63,16 +70,31 @@ pub fn delete_todo(id: i32,_form: Form<DeleteForm>) -> Redirect {
 
 // TODO更新画面
 #[get("/update/<id>")]
-pub fn update(id: i32) -> String {
-    let response = format!("Hello {}", id);
-    response
+pub fn update(id: i32) -> Template {
+    let connection = &mut TodoRepositories::establish_connection();
+    match TodoRepositories::show(connection, id) {
+        Ok(todo) => Template::render("update", context! {todo:todo}),
+        Err(_) => Template::render(
+            "error",
+            context! {message:"データベースエラーが発生しました。"},
+        ),
+    }
 }
 
 // TODO更新処理
-#[put("/update/<id>")]
-pub fn update_todo(id: i32) -> String {
-    let response = format!("Hello {}", id);
-    response
+#[post(
+    "/update",
+    format = "application/x-www-form-urlencoded",
+    data = "<update_todo>"
+)]
+pub fn update_todo(update_todo: Form<Todo>) -> Redirect {
+    let connection = &mut TodoRepositories::establish_connection();
+    let id = update_todo.id.clone();
+
+    match TodoRepositories::update(connection, update_todo) {
+        Ok(_todo) => Redirect::to(format!("/detail/{}", id)),
+        Err(e) => Redirect::to(format!("/error?message={}", e)),
+    }
 }
 
 #[get("/error?<message>")]

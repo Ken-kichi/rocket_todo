@@ -2,7 +2,7 @@ use diesel::prelude::*;
 use rocket::FromForm;
 use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, Serialize, Deserialize, Debug)]
+#[derive(Queryable, Serialize, Deserialize, Debug,Clone,FromForm)]
 #[diesel(table_name=crate::schema::todos)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct Todo {
