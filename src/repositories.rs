@@ -13,7 +13,7 @@ impl TodoRepositories {
     pub fn establish_connection() -> SqliteConnection {
         dotenv().ok();
 
-        let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+        let database_url = env::var("database_url").expect("DATABASE_URL must be set");
         SqliteConnection::establish(&database_url)
             .unwrap_or_else(|_| panic!("エラーを起こしているURL{}", database_url))
     }

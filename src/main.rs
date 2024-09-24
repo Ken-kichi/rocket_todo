@@ -5,9 +5,11 @@ use rocket::{
 };
 use rocket_dyn_templates::Template;
 use rocket_todo::routes::*;
+use std::env;
 
 #[rocket::main]
 async fn main() -> Result<(), rocket::Error> {
+    let _port = env::var("PORT").unwrap_or_else(|_| "8000".to_string()); // デフォルトポート8000
     let _rocket = rocket::build()
         .mount("/", FileServer::from(relative!("static")))
         .attach(Template::fairing())
