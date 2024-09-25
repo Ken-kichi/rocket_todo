@@ -32,16 +32,16 @@
     <div class="uk-container">
         <h1 class="uk-heading-line uk-text-center"><span>TODO一覧</span></h1>
         <div class="uk-flex uk-flex-wrap uk-width-1-1" style="margin: auto;">
-            {%if message%}
+            {% if message %}
             <div class="uk-width-1-1">
                 <div class="uk-card uk-card-default uk-card-body">
-                    <h3 class="uk-card-title">{{message}}</h3>
+                    <h3 class="uk-card-title">{{ message }}</h3>
                 </div>
             </div>
             {% else %}
-            {% for todo in todos%}
-            <div class="uk-width-1-2">
-                <div class="uk-card uk-card-default uk-card-body uk-margin-small-top">
+            {% for todo in todos %}
+            <div class="uk-width-1-3 uk-margin-small-top"> <!-- 幅を1/3に変更 -->
+                <div class="uk-card uk-card-hover uk-card-default uk-card-body"> <!-- ホバー効果を追加 -->
                     <h3 class="uk-card-title">{{ loop.index }}. {{ todo.title }}</h3>
                     {% if todo.completed %}
                     <div class="uk-alert-success" uk-alert>
@@ -52,20 +52,20 @@
                         <p>未完了</p>
                     </div>
                     {% endif %}
-                    <div class="uk-flex uk-flex-inline">
-                        <a href="/detail/{{todo.id}}" class="uk-button uk-button-secondary"
+                    <div class="uk-flex uk-flex-inline uk-margin-top"> <!-- マージンを追加 -->
+                        <a href="/detail/{{ todo.id }}" class="uk-button uk-button-secondary"
                             style="margin-right: 10px;">詳細</a>
-                        <a href="/update/{{todo.id}}" class="uk-button uk-button-default"
+                        <a href="/update/{{ todo.id }}" class="uk-button uk-button-default"
                             style="margin-right: 10px;">更新</a>
                         <form action="/delete" method="post" onsubmit="return confirm('本当に削除しますか？');">
-                            <input type="hidden" name="id" value="{{todo.id}}">
+                            <input type="hidden" name="id" value="{{ todo.id }}">
                             <button type="submit" class="uk-button uk-button-danger">削除</button>
                         </form>
                     </div>
                 </div>
             </div>
             {% endfor %}
-            {% endif%}
+            {% endif %}
         </div>
     </div>
 </body>

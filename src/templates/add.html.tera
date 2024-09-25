@@ -33,13 +33,12 @@
         <h1 class="uk-heading-line uk-text-center"><span>TODO追加</span></h1>
         {%if message %}
         <div class="uk-alert-danger" uk-alert>
-
             <p>{{message}}</p>
         </div>
         {% endif %}
 
         <form class="uk-card uk-card-default uk-card-body uk-margin-small-top" method="post" action="/add">
-            <div class="uk-margin  uk-text-center">
+            <div class="uk-margin uk-text-center">
                 <label for="title" class="uk-form-label">タイトル</label>
                 <div class="uk-form-controls">
                     <input class="uk-input uk-width-1-2" id="title" name="title" type="text" placeholder="TODOのタイトルを入力"
@@ -47,7 +46,15 @@
                 </div>
             </div>
 
-            <div class="uk-margin  uk-text-center">
+            <div class="uk-margin uk-text-center">
+                <label for="description" class="uk-form-label">説明</label>
+                <div class="uk-form-controls">
+                    <textarea class="uk-textarea uk-width-1-2" id="description" name="description"
+                        placeholder="TODOの説明を入力" required></textarea>
+                </div>
+            </div>
+
+            <div class="uk-margin uk-text-center">
                 <label for="completed" class="uk-form-label">完了状態</label>
                 <div class="uk-form-controls">
                     <select class="uk-select uk-width-1-2" id="completed" name="completed" required>
@@ -56,8 +63,8 @@
                     </select>
                 </div>
             </div>
-            <div class="uk-margin  uk-text-center">
-                <button class="uk-button uk-button-primary" type="submit">追加</button>
+            <div class="uk-margin uk-text-center">
+                <button class="uk-button uk-button-primary uk-width-1-2" type="submit">追加</button>
             </div>
         </form>
     </div>

@@ -33,27 +33,36 @@
         <h1 class="uk-heading-line uk-text-center"><span>TODO更新</span></h1>
         <form class="uk-card uk-card-default uk-card-body uk-margin-small-top" method="post" action="/update">
             <input type="hidden" name="id" value="{{todo.id}}">
-            <div class="uk-margin  uk-text-center">
+            <input type="hidden" name="created_at" value="{{todo.created_at}}">
+            <div class="uk-margin uk-text-center">
                 <label for="title" class="uk-form-label">タイトル</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input uk-width-1-2" id="title" name="title" type="text" placeholder="TODOのタイトルを入力"
-                        value="{{todo.title}}" required>
+                    <input class="uk-input uk-width-1-2 uk-form-large" id="title" name="title" type="text"
+                        placeholder="TODOのタイトルを入力" value="{{todo.title}}" required>
                 </div>
             </div>
 
-            <div class="uk-margin  uk-text-center">
+            <div class="uk-margin uk-text-center">
+                <label for="description" class="uk-form-label">説明</label>
+                <div class="uk-form-controls">
+                    <textarea class="uk-textarea uk-width-1-2 uk-form-large" id="description" name="description"
+                        placeholder="TODOの説明を入力" required>{{todo.description}}</textarea>
+                </div>
+            </div>
+
+            <div class="uk-margin uk-text-center">
                 <label for="completed" class="uk-form-label">完了状態</label>
                 <div class="uk-form-controls">
-                    <select class="uk-select uk-width-1-2" id="completed" name="completed" required>
+                    <select class="uk-select uk-width-1-2 uk-form-large" id="completed" name="completed" required>
                         <option value="false" {%if todo.completed==false %} selected{% endif %}>未完了</option>
                         <option value="true" {%if todo.completed==true %} selected{% endif %}>完了</option>
                     </select>
                 </div>
             </div>
-            <div class="uk-margin  uk-text-center">
-                <button class="uk-button uk-button-default" type="submit">更新</button>
+            <div class="uk-margin uk-text-center">
+                <button class="uk-button uk-button-primary uk-button-large" type="submit">更新</button>
                 <a href="/detail/{{todo.id}}">
-                    <button class="uk-button uk-button-primary" type="submit">詳細へ戻る</button>
+                    <button class="uk-button uk-button-secondary uk-button-large" type="button">詳細へ戻る</button>
                 </a>
             </div>
         </form>

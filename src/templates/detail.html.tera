@@ -31,22 +31,23 @@
 
     <div class="uk-container">
         <h1 class="uk-heading-line uk-text-center"><span>TODO詳細</span></h1>
-        <div class="uk-flex uk-flex-column uk-width-1-3" style="margin: auto;">
+        <div class="uk-flex uk-flex-column uk-width-1-2" style="margin: auto;">
             <div>
-                <div class="uk-card uk-card-default uk-card-body uk-margin-small-top">
-                    <h3 class="uk-card-title">{{todo.title}}</h3>
+                <div class="uk-card uk-card-default uk-card-body uk-margin-small-top uk-box-shadow-small">
+                    <h3 class="uk-card-title uk-text-bold">{{todo.title}}</h3>
+                    <p class="uk-card-body uk-text-muted">{{todo.description}}</p>
+                    <p class="uk-card-body uk-text-small">{{todo.created_at}}</p>
                     {% if todo.completed %}
                     <div class="uk-alert-success" uk-alert>
-                        <p>未完了</p>
+                        <p class="uk-text-bold">完了</p>
                     </div>
                     {% else %}
                     <div class="uk-alert-danger" uk-alert>
-                        <p>未完了</p>
+                        <p class="uk-text-bold">未完了</p>
                     </div>
                     {% endif %}
-                    <div class="uk-flex uk-flex-inline">
-                        <a href="/update/{{todo.id}}" class="uk-button uk-button-default"
-                            style="margin-right: 10px;">更新</a>
+                    <div class="uk-flex uk-flex-inline uk-margin-top">
+                        <a href="/update/{{todo.id}}" class="uk-button uk-button-primary uk-margin-right">更新</a>
                         <form action="/delete" method="post" onsubmit="return confirm('本当に削除しますか？');">
                             <input type="hidden" name="id" value="{{todo.id}}">
                             <button type="submit" class="uk-button uk-button-danger">削除</button>

@@ -1,6 +1,6 @@
 use crate::{
     models::{NewTodo, Todo},
-    schema::todos,
+    schema::todos::{self},
 };
 use diesel::prelude::*;
 use dotenvy::dotenv;
@@ -13,7 +13,7 @@ impl TodoRepositories {
     pub fn establish_connection() -> SqliteConnection {
         dotenv().ok();
 
-        let database_url = env::var("database_url").expect("DATABASE_URL must be set");
+        let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
         SqliteConnection::establish(&database_url)
             .unwrap_or_else(|_| panic!("エラーを起こしているURL{}", database_url))
     }
@@ -33,11 +33,13 @@ impl TodoRepositories {
 
     pub fn create(
         conn: &mut SqliteConnection,
-        title: &String,
+        new_title: &String,
+        new_description: &String,
         completed: &bool,
     ) -> Result<usize, String> {
         let new_todo = NewTodo {
-            title: title.to_string(),
+            title: new_title.to_string(),
+            description: new_description.to_string(),
             completed: *completed,
         };
 
@@ -51,6 +53,7 @@ impl TodoRepositories {
         Ok(diesel::update(todos::table.find(update_todo.id))
             .set((
                 todos::title.eq(update_todo.title.clone()),
+                todos::description.eq(update_todo.description.clone()),
                 todos::completed.eq(update_todo.completed),
             ))
             .execute(conn)

@@ -47,7 +47,7 @@ pub fn add(message: Option<String>) -> Template {
 )]
 pub fn add_todo(new_todo: Form<NewTodo>) -> Redirect {
     let connection = &mut TodoRepositories::establish_connection();
-    match TodoRepositories::create(connection, &new_todo.title, &new_todo.completed) {
+    match TodoRepositories::create(connection, &new_todo.title,&new_todo.description, &new_todo.completed) {
         Ok(_todo) => Redirect::to("/"),
         Err(e) => Redirect::to(format!("/error?message={}", e)),
     }
