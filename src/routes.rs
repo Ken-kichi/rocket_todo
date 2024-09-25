@@ -47,9 +47,14 @@ pub fn add(message: Option<String>) -> Template {
 )]
 pub fn add_todo(new_todo: Form<NewTodo>) -> Redirect {
     let connection = &mut TodoRepositories::establish_connection();
-    match TodoRepositories::create(connection, &new_todo.title,&new_todo.description, &new_todo.completed) {
+    match TodoRepositories::create(
+        connection,
+        &new_todo.title,
+        &new_todo.description,
+        &new_todo.completed,
+    ) {
         Ok(_todo) => Redirect::to("/"),
-        Err(e) => Redirect::to(format!("/error?message={}", e)),
+        Err(_) => Redirect::to("/error"),
     }
 }
 
@@ -62,7 +67,7 @@ pub fn add_todo(new_todo: Form<NewTodo>) -> Redirect {
 pub fn delete_todo(form: Form<DeleteForm>) -> Redirect {
     let connection = &mut TodoRepositories::establish_connection();
     match TodoRepositories::delete(connection, form.id) {
-        Err(e) => Redirect::to(format!("/error?message={}", e)),
+        Err(_) => Redirect::to("/error"),
         Ok(0) => Redirect::to("/"), // 0件削除された場合の処理
         Ok(_) => Redirect::to("/"), // 1件以上削除された場合の処理
     }
@@ -93,7 +98,7 @@ pub fn update_todo(update_todo: Form<Todo>) -> Redirect {
 
     match TodoRepositories::update(connection, update_todo) {
         Ok(_todo) => Redirect::to(format!("/detail/{}", id)),
-        Err(e) => Redirect::to(format!("/error?message={}", e)),
+        Err(_) => Redirect::to("/error"),
     }
 }
 
